@@ -23,7 +23,7 @@ Extends `AvgStack` to multi-plane acquisitions. Deinterleaves the raw ScanImage 
 ---
 
 ### AvgStackMontage
-Same as `AvgStackMultiPlanes` but additionally produces a tiled montage image showing all N planes in a single window, arranged in the most square grid possible.
+Reads the most recent `.tif` file and produces a single tiled montage image showing all N planes in one window. Does **not** produce a scrollable stack.
 
 | N planes | Grid |
 |----------|------|
@@ -36,9 +36,8 @@ Same as `AvgStackMultiPlanes` but additionally produces a tiled montage image sh
 
 - Supports 1 or 2 channels
 - Supports 1–8 planes
-- Produces both a scrollable stack and a montage image per channel
+- Output is a single montage image per channel (no scrollable stack)
 - 5px border between tiles
-
 ---
 
 ## Usage
