@@ -1,17 +1,66 @@
 # Fiji-macro
 Useful ImageJ/Fiji macro for quick analysis on ScanImage Tif file
 
-### Dependencies
-- Fiji (works with 1.51+)
-- TurboReg (optional)
+## Macros
 
-### Macro
-- **AvgTurboReg**: Read most recent tif file from your saving location and apply averaging and/or motion correction. Only support single plane tif file for now. **TurboReg is not implemented yet!** (too slow for quick check)
+### AvgStack
+Reads the most recent `.tif` file from your saving location and produces an averaged image for quick inspection.
 
-### Usage
-1. Launch Fiji
-2. Open macro `.ijm` file and change user-definned variable.
-3. Run/Install macro
+- Single-plane acquisitions only
+- Supports 1 or 2 channels
+- **TurboReg motion correction is not implemented yet** (too slow for quick check)
+
+---
+
+### AvgStackMultiPlanes
+Extends `AvgStack` to multi-plane acquisitions. Deinterleaves the raw ScanImage tif by plane and channel, averages each plane independently, then recombines them into a scrollable `N x X x Y` stack in ImageJ.
+
+- Supports 1 or 2 channels
+- Supports 1–8 planes
+- Output is a scrollable stack per channel (use `Analyze → Tools → Synchronize Windows` to scroll Green and Red channels simultaneously)
+- Averaging is optional
+
+---
+
+### AvgStackMontage
+Same as `AvgStackMultiPlanes` but additionally produces a tiled montage image showing all N planes in a single window, arranged in the most square grid possible.
+
+| N planes | Grid |
+|----------|------|
+| 1        | 1×1  |
+| 2        | 1×2  |
+| 4        | 2×2  |
+| 5        | 2×3  |
+| 6        | 2×3  |
+| 9        | 3×3  |
+
+- Supports 1 or 2 channels
+- Supports 1–8 planes
+- Produces both a scrollable stack and a montage image per channel
+- 5px border between tiles
+
+---
+
+## Usage
+
+1. Open Fiji/ImageJ
+2. `Plugins → Macros → Run...` and select the desired `.ijm` file
+3. Fill in the dialog:
+   - **Data path**: folder where ScanImage saves your `.tif` files
+   - **Use most recently acquired tif**: if checked, automatically picks the latest `.tif` in the folder; if unchecked, opens a folder browser
+   - **Number of channels**: `1` (green only) or `2` (green + red)
+   - **Number of planes** *(AvgStackMultiPlanes / AvgStackMontage only)*: must match the number of planes set in ScanImage
+   - **Enable Averaging**: Z-project each plane sub-stack using Average Intensity
+
+---
+
+## Requirements
+
+- [Fiji](https://fiji.sc/) (ImageJ with Bio-Formats bundled)
+- Bio-Formats Importer (included in Fiji)
+- Data acquired with [ScanImage](https://www.mbfbioscience.com/scanimage)
+
+---
 
 ## Resources
 - https://imagej.net/ij/macros/
